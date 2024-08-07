@@ -1,4 +1,5 @@
 #include "globals.h"
+#include <M5Unified.h>
 #pragma once
 
 //*********************************************************************************************
@@ -7,11 +8,32 @@
 void TelnetTask(void *parameter) {
   server.begin();
   server.setNoDelay(true);
-  Serial.println("Telnet Task Started:");
-  Serial.print("Use 'telnet ");
-  Serial.print(WiFi.localIP());
-  Serial.println("' to connect");
+
+  // Ensure Serial is available before printing
+  while (!Serial) {
+    vTaskDelay(10); // Wait for Serial to become available
+  }
+
+  const char *startMsg = "Telnet Task Started:\n\r";
+  const char *useMsg = "\n\r***Use 'telnet ";
+  const char *endMsg = "' to connect***\n\r";
+
+  // Use Serial.write for all parts of the message
+  vTaskDelay(1000);
+  Serial.write(startMsg, strlen(startMsg));
+  vTaskDelay(1);
+  Serial.write(useMsg, strlen(useMsg));
+  vTaskDelay(1);
+  Serial.write(WiFi.localIP().toString().c_str());
+  vTaskDelay(1);
+  Serial.write(endMsg, strlen(endMsg));
+  vTaskDelay(3000);
   telnet_t = true;
+
+  M5.Display.setCursor(10, 10);
+  M5.Display.setTextColor(TFT_WHITE);
+  M5.Display.setTextSize(2);
+  M5.Display.println(WiFi.localIP().toString().c_str());
 
   for (;;) {
 
