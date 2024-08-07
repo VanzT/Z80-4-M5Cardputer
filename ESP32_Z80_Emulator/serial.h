@@ -6,7 +6,8 @@
 //*********************************************************************************************
 void serialTask(void *parameter) {
   char c;
-  Serial.println("Serial I/O Task Started");
+  Serial.write("\n\rSerial I/O Task Started\n\r");
+  vTaskDelay(1);
   serial_t = true;
 
   for (;;) {
@@ -20,6 +21,7 @@ void serialTask(void *parameter) {
       }
       txOutPtr++;                                   //Inc Output buffer pointer
       if (txOutPtr == sizeof(txBuf)) txOutPtr = 0;  //Wrap around circular buffer
+      vTaskDelay(1);
     }
     //vTaskDelay(1);
     // Check for Received chars from Serial
