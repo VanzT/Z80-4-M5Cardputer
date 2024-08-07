@@ -60,7 +60,8 @@ void OTAtask(void *parameter) {
   Serial.print("WiFi Connected - IP address: ");
   Serial.println(WiFi.localIP());
   ArduinoOTA.begin();
-  Serial.println("OTA update Service Started");
+  Serial.println("\n\rOTA update Service Started\n\r");
+  vTaskDelay(10);
   ota_t = true;
 
   //OTA task loop
