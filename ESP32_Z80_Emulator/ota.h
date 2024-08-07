@@ -7,7 +7,7 @@ void OTAtask(void *parameter) {
     
  Serial.println("Connecting to Wifi");
   //WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
+  WiFi.begin(mySSID, myPASSWORD);
   //WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS);  
   WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE); // required to set hostname properly
   WiFi.setHostname(hostName);
