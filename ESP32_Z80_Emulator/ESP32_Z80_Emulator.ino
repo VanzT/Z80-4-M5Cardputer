@@ -2,7 +2,7 @@
 #include <FS.h>
 #include <SPI.h>
 #include <SD.h>
-
+#include <M5Unified.h>
 
 //Needed for OTA
 #include <WiFi.h>
@@ -24,10 +24,10 @@
 
 
 void setup() {
-  pinMode(LED_BUILTIN, OUTPUT);  //Built in LED functions as disk activity indicator
+  pinMode(21, OUTPUT);  //Built in LED functions as disk activity indicator
   pinMode(swA, INPUT_PULLUP);    //BreakPoint switch inputs
-
-  Serial.begin(115200);
+  M5.begin();
+  Serial.begin(9600);
   while (!Serial)
     ;
 
