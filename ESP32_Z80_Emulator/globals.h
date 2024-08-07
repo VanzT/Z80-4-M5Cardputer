@@ -8,8 +8,9 @@ const String banner[] = {           //Startup / logon banner
   "E               S  P         8      8  0 0    0 ",
   " EEEEEE   SSSSSS   P          888888    000000  ",
   "                                                ",
-  "           Z80 Emulator for ESP32 V2.2          ",
+  "           Z80 Emulator for ESP32 V2.2a         ",
   " David Bottrill - Shady Grove Electronics 2023  ",
+  " Vance Thompson - M5Cardputer tweaks added 2024 ",
   "                                                "
   };
 
