@@ -24,10 +24,11 @@ const char *hostName = "esp80";   //Hostname
 //****                    Configuration for Lolin 32 Board                                 ****
 //*********************************************************************************************
 #ifdef LOLIN32
-#define SS    5
-#define MOSI  23
-#define MISO  19
-#define SCK   18
+
+#define SS    00
+#define MOSI  00
+#define MISO  00
+#define SCK   00
 SPIClass sdSPI(VSPI);
 
 //Define pins to use as virtual GPIO ports, -1 means not implemented
@@ -45,10 +46,10 @@ int PortB[8] = { 17, 16, -1, -1, -1, -1, -1, -1};   //Virtual GPIO Port B
 //*********************************************************************************************
 #ifdef T1
 
-#define SS    13
-#define MOSI  15
-#define MISO  2
-#define SCK   14
+#define SS    00
+#define MOSI  00
+#define MISO  00
+#define SCK   00
 SPIClass sdSPI(HSPI);
 
 //Define pins to use as virtual GPIO ports, -1 means not implemented
@@ -90,10 +91,10 @@ Adafruit_SSD1331 display = Adafruit_SSD1331(cs, dc, mosi, sclk, rst);
 
 
 //SD Card SPI Pins
-#define SS    05
-#define MOSI  23
-#define MISO  19
-#define SCK   18
+#define SS    00
+#define MOSI  00
+#define MISO  00
+#define SCK   00
 SPIClass sdSPI(VSPI);
 
 //Define pins to use as virtual GPIO ports, -1 means not implemented
@@ -111,10 +112,10 @@ int PortB[8] = { 21, 22, -1, -1, -1, -1, -1, -1};   //Virtual GPIO Port B
 //*********************************************************************************************
 #ifdef S3
 
-#define SS    42
-#define MOSI  41
-#define MISO  40
-#define SCK   39
+#define SS    12
+#define MOSI  14
+#define MISO  39
+#define SCK   40
 SPIClass sdSPI(SPI);
 
 //Define pins to use as virtual GPIO ports, -1 means not implemented
@@ -203,7 +204,7 @@ uint16_t txOutPtr;              //Serial transmit buffer output pointer
 
 int vdrive;                     //Virtual drive number
 char sdfile[50] = {};           //SD card filename
-char sddir[50] = {"/download"}; //SD card path
+char sddir[50] = {"/cpm_dnld"}; //SD card path
 bool sdfound = true;            //SD Card present flag
 
 TaskHandle_t Task1, Task2, Task3, Task4, Task5, Task6;      //Task handles
