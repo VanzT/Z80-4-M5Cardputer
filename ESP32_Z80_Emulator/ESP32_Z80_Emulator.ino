@@ -27,9 +27,14 @@ void setup() {
   pinMode(21, OUTPUT);  //Built in LED functions as disk activity indicator
   pinMode(swA, INPUT_PULLUP);    //BreakPoint switch inputs
   M5.begin();
-  Serial.begin(9600);
-  while (!Serial)
-    ;
+  Serial.begin(115200);
+  //while (!Serial) //might be needed for other boards, but not M5StampS3
+  //  ;  //just keep going
+  M5.Display.setCursor(10, 10);
+  M5.Display.setTextColor(TFT_WHITE);
+  M5.Display.setTextSize(2);
+  M5.Display.println("Z80 For Cardputer");
+  delay(2000);
 
   Serial.println("");
   Serial.println("");
