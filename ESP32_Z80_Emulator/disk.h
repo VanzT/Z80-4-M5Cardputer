@@ -234,7 +234,7 @@ bool SDfileRead(void) {                      // Read block from file command
 
   int s = pOut[DPARM + 3] << 8 | pOut[DPARM + 2];  // Block Number
   int a = pOut[DPARM + 1] << 8 | pOut[DPARM];      // Get buffer address
-  digitalWrite(LED_BUILTIN, HIGH);
+  digitalWrite(21, HIGH);
   dled = true;
   File f = SD.open(sdfile, FILE_READ);
   if (!f) {
@@ -254,7 +254,7 @@ bool SDfileRead(void) {                      // Read block from file command
     }
   }
   f.close();
-  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(21, LOW);
   dled = false;
   return (true);
 }
@@ -263,7 +263,7 @@ bool SDfileRead(void) {                      // Read block from file command
 //****                       Z80 Virtual disk write function                               ****
 //*********************************************************************************************
 bool diskWrite(void) {
-  digitalWrite(LED_BUILTIN, HIGH);
+  digitalWrite(21, HIGH);
   dled = true;
   uint32_t s = pOut[DPARM + 4] << 16 | pOut[DPARM + 3] << 8 | pOut[DPARM + 2];
   uint16_t a = pOut[DPARM + 1] << 8 | pOut[DPARM];
@@ -283,7 +283,7 @@ bool diskWrite(void) {
     f.write(RAM[a + i]);
   }
   f.close();
-  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(21, LOW);
   dled = false;
   return (true);
 }
@@ -292,7 +292,7 @@ bool diskWrite(void) {
 //****                       Z80 Virtual disk read function                               ****
 //*********************************************************************************************
 bool diskRead(void) {
-  digitalWrite(LED_BUILTIN, HIGH);
+  digitalWrite(21, HIGH);
   dled = true;
   uint32_t s = pOut[DPARM + 4] << 16 | pOut[DPARM + 3] << 8 | pOut[DPARM + 2];
   uint16_t a = pOut[DPARM + 1] << 8 | pOut[DPARM];
@@ -313,7 +313,7 @@ bool diskRead(void) {
     RAM[a + i] = f.read();
   }
   f.close();
-  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(21, LOW);
   dled = false;
   return (true);
 }
@@ -325,7 +325,7 @@ bool diskRead(void) {
 //*********************************************************************************************
 //Read file from SD Card into RAM
 void FileToRAM(char c[], uint16_t l) {
-  digitalWrite(LED_BUILTIN, HIGH);
+  digitalWrite(21, HIGH);
   dled = true;
   Serial.printf("Loading: %s at 0x%04x ", c, l);
   File f;
@@ -341,6 +341,6 @@ void FileToRAM(char c[], uint16_t l) {
   for (a = 0; a < f.size(); a++ ) RAM[l + a] = f.read();
   Serial.println("Done");
   f.close();
-  digitalWrite(LED_BUILTIN, LOW);
+  digitalWrite(21, LOW);
   dled = false;
 }
