@@ -205,7 +205,7 @@ uint16_t txOutPtr;              //Serial transmit buffer output pointer
 
 int vdrive;                     //Virtual drive number
 char sdfile[50] = {};           //SD card filename
-char sddir[50] = {"/cpm_dnld"}; //SD card path
+char sddir[50] = {"/z80/xfer"}; //SD card path
 bool sdfound = true;            //SD Card present flag
 
 TaskHandle_t Task1, Task2, Task3, Task4, Task5, Task6;      //Task handles
