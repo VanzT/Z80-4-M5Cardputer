@@ -1,6 +1,37 @@
 # ESP32-Z80-Emulator
 
 
+Forked from djbottrill/ESP32-Z80-Emulator, I tweaked this to work on the M5Stack Cardputer running M5Launcher.
+Previous updates from the original branch down below.  Before that, however, are instructions for this version and misc. notes.
+
+To install:
+1.  Clone this repo or download the code and unzip
+2.  Edit credentials.h to include your network's SSID and password.  This is so you can telnet to the Cardputer and not have to connect it by USB/serial to use it (although you can still do so).
+3.  Open ESP32_Z80_Emulator.ino in the \ESP32_Z80_Emulator folder with Arduino IDE
+4.  In the Sketch menu, choose "Export Compiled Binary"  (you may need to install dependencies if it screams during compilation)
+5.  Once compiled, grab the ESP32_Z80_Emulator.ino.bin from the build folder and place on the SD card (with M5 Launcher already installed) into the downloads folder
+6.  From the SD Card Files folder, get boot.txt, the z80 folder, and the disks folder and place on the root of the SD card
+7.  Eject the card and put back into the Cardputer
+8.  Boot it up and install the bin like you would any other firmware in M5Launcher
+9.  Either connect using USB to a Windows machine and connect using Putty over serial to whatever com port the PC decides on, or telnet to the IP address shown on the Cardputer screen once it fully initialized.  Or do both... at the same time! Yeah, that works too.
+10.  Play Zork and don't get eaten by a grue.
+
+Notes:
+- There will be an A: drive already present with utilities.  You can clone this by taking A.dsk from the layout, changing the name to B.dsk (for example) and putting in the \disks folder on the SD card.  From there, you can format it from within CP/M.  Original author says you can create up to 16 (A: through P:), but I haven't done that.
+- SDFILES.com on the A: drive will show you files present in the \z80\xfer folder of the SD card.  You can find Zork here which was a pleasant surprise for me.
+- SDCOPY.com will copy files from the \z80\xfer folder to the A: drive
+- The code is sprinkled with vTaskDelay() commands.  Some seemed to be needed, some might not be, and others were commented out already.  You may wish to change the length of the delays depending on your experience
+- Putty is the only telnet and serial client I tested with.  You may have a different experience, but I had a heck of a time getting the output right.  If you run into issues, serial.h is likely where you should look
+- At some point, I would like to make it so a plain text file on the SD would hold the network credentials, but that is for another day.  If anybody wants to give it a shot, please do so and I will add it.
+
+Thank you to the original author, David Bottrill, for the heavy lifting.
+
+My updates are all post-2023 below.
+
+Update 07/08/2024
+
+All the things to make it work on the Cardputer.
+
 Update 28/04/23
 
 CPM SD commands: sdfiles, sdpath and sdcopy now send serial output to telnet session.
