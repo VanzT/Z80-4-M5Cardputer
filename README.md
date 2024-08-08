@@ -28,11 +28,15 @@ Thank you to the original author, David Bottrill, for the heavy lifting.
 
 My updates are all post-2023 below.
 
-Update 07/08/2024
+*************************
+
+*** Update 07/08/2024 ***
 
 All the things to make it work on the Cardputer.
 
-Update 28/04/23
+*************************
+
+*** Update 28/04/23 ***
 
 CPM SD commands: sdfiles, sdpath and sdcopy now send serial output to telnet session.
 Other minor tweaks.
