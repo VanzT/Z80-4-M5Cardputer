@@ -1,4 +1,4 @@
-# ESP32-Z80-Emulator
+# Z80-4-M5Cardputer
 
 
 Forked from djbottrill/ESP32-Z80-Emulator, I tweaked this to work on the M5Stack Cardputer running M5Launcher.
