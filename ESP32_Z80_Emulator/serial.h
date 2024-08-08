@@ -29,12 +29,25 @@ void serialTask(void *parameter) {
       rxBuf[rxInPtr] = Serial.read();
       rxInPtr++;
       if (rxInPtr == sizeof(rxBuf)) rxInPtr = 0;
+      vTaskDelay(1);
     }
 
     // Check for Received chars from Telnet
     while (serverClient.available()) {
       c = serverClient.read();
-      if (c == 127) c = 8;  //Translate backspace
+      // Handle different newline characters
+      if (c == '\r') {
+        // Ignore carriage return if followed by line feed
+        if (serverClient.peek() == '\n') {
+          serverClient.read();
+        }
+        c = '\n';  // Translate carriage return to line feed
+      } else if (c == '\n') {
+        // Translate line feed to newline (optional)
+        c = '\n';
+      } else if (c == 127) {
+        c = 8;  // Translate backspace
+      }
       rxBuf[rxInPtr] = c;
       rxInPtr++;
       if (rxInPtr == sizeof(rxBuf)) rxInPtr = 0;
