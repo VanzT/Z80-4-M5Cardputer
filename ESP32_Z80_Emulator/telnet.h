@@ -10,9 +10,9 @@ void TelnetTask(void *parameter) {
   server.setNoDelay(true);
 
   // Ensure Serial is available before printing
-  while (!Serial) {
-    vTaskDelay(10); // Wait for Serial to become available
-  }
+//  while (!Serial) {
+//    vTaskDelay(10); // Wait for Serial to become available   <-- why?
+//  }
 
   const char *startMsg = "Telnet Task Started:\n\r";
   const char *useMsg = "\n\r***Use 'telnet ";
@@ -30,9 +30,15 @@ void TelnetTask(void *parameter) {
   vTaskDelay(3000);
   telnet_t = true;
 
+  M5.Display.fillScreen(TFT_BLACK);
   M5.Display.setCursor(10, 10);
   M5.Display.setTextColor(TFT_WHITE);
   M5.Display.setTextSize(2);
+  M5.Display.println("Z80 for Cardputer");
+  M5.Display.setCursor(30, 40);
+  M5.Display.println("TELNET TO: ");
+  M5.Display.setCursor(30, 60);
+  M5.Display.setTextColor(TFT_YELLOW);
   M5.Display.println(WiFi.localIP().toString().c_str());
 
   for (;;) {
