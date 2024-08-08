@@ -2,14 +2,14 @@
 ; Data files and load addresses at boot time
 ;
 ; CP/M 2.2
-/cboot.rom  0000
-/cpm22.rom  D000
-/cbios.rom  E600
+/z80/roms/cboot.rom  0000
+/z80/roms/cpm22.rom  D000
+/z80/roms/cbios.rom  E600
 ;
 ; Nascom Basic
-;/init8250.rom  0000
-;/basic.rom  0150
+;/z80/roms/init8250.rom  0000
+;/z80/roms/basic.rom  0150
 ;
 ; Simple Z80 monitor program
-;/z80UARTMonitor.rom  0000
+;/z80/roms/z80UARTMonitor.rom  0000
 ;
