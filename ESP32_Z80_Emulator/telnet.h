@@ -11,12 +11,19 @@ void TelnetTask(void *parameter) {
 
   // Ensure Serial is available before printing
 //  while (!Serial) {
-//    vTaskDelay(10); // Wait for Serial to become available   <-- why?
+//    vTaskDelay(10); // Wait for Serial to become available
 //  }
 
   const char *startMsg = "Telnet Task Started:\n\r";
   const char *useMsg = "\n\r***Use 'telnet ";
   const char *endMsg = "' to connect***\n\r";
+
+  // Get the local IP address
+  IPAddress localIP = WiFi.localIP();
+  String ipString = localIP.toString();
+  
+  // Check if the IP address is valid
+  bool isValidIP = (localIP != IPAddress(0, 0, 0, 0)) && (ipString.length() > 0);
 
   // Use Serial.write for all parts of the message
   vTaskDelay(1000);
@@ -24,7 +31,11 @@ void TelnetTask(void *parameter) {
   vTaskDelay(1);
   Serial.write(useMsg, strlen(useMsg));
   vTaskDelay(1);
-  Serial.write(WiFi.localIP().toString().c_str());
+  if (isValidIP) {
+    Serial.write(ipString.c_str());
+  } else {
+    Serial.write("not available");
+  }
   vTaskDelay(1);
   Serial.write(endMsg, strlen(endMsg));
   vTaskDelay(3000);
@@ -39,10 +50,13 @@ void TelnetTask(void *parameter) {
   M5.Display.println("TELNET TO: ");
   M5.Display.setCursor(30, 60);
   M5.Display.setTextColor(TFT_YELLOW);
-  M5.Display.println(WiFi.localIP().toString().c_str());
+  if (isValidIP) {
+    M5.Display.println(ipString);
+  } else {
+    M5.Display.println("not available");
+  }
 
   for (;;) {
-
     if (server.hasClient()) {
       serverClient = server.available();
       //if (serverClient) {
