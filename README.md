@@ -27,7 +27,12 @@ Notes:
 Thank you to the original author, David Bottrill, for the heavy lifting.
 
 My updates are all post-2023 below.
+*************************
+*** Update 18/08/2024 ***
 
+Fixed telnet bugs with Zork
+Notify users of wifi connection attempt at bootup so we don't stare at it wondering if it is doing nothing
+Do not reboot if wifi connection fails
 *************************
 
 *** Update 07/08/2024 ***
