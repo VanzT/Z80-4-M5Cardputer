@@ -41,10 +41,7 @@ void serialTask(void *parameter) {
         if (serverClient.peek() == '\n') {
           serverClient.read();
         }
-        c = '\n';  // Translate carriage return to line feed
-      } else if (c == '\n') {
-        // Translate line feed to newline (optional)
-        c = '\n';
+        c = '\r';  // Just make it a CR
       } else if (c == 127) {
         c = 8;  // Translate backspace
       }
