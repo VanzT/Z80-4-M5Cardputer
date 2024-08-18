@@ -13,9 +13,10 @@ void OTAtask(void *parameter) {
   WiFi.setHostname(hostName);
   ArduinoOTA.setHostname(hostName);
   while (WiFi.waitForConnectResult() != WL_CONNECTED) {
-    Serial.println("Connection Failed! Rebooting...");
+    Serial.println("Connection Failed!");
     delay(5000);
-    ESP.restart();
+    break;
+    //ESP.restart();
   }
 
   // Port defaults to 3232
