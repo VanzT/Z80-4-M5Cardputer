@@ -13,7 +13,7 @@ To install:
 6.  From the \SD Card Files\ folder, get boot.txt, the \z80 folder, and the \disks folder and place on the root of the SD card
 7.  Eject the card and put back into the Cardputer
 8.  Boot it up and install the bin like you would any other firmware in M5Launcher
-9.  Either connect using USB to a Windows machine and connect using Putty over serial to whatever com port the PC decides on, or telnet to the IP address shown on the Cardputer screen once it fully initialized.  Or do both... at the same time! Yeah, that works too.
+9.  Either connect using USB to a Windows machine and connect using Putty over serial to whatever com port the PC decides on, or telnet to the IP address shown on the Cardputer screen once it is fully initialized.  Or do both... at the same time! Yeah, that works too.
 10.  Play Zork and don't get eaten by a grue.
 
 Notes:
@@ -23,6 +23,7 @@ Notes:
 - The code is sprinkled with vTaskDelay() commands.  Some seemed to be needed, some might not be, and others were commented out already.  You may wish to change the length of the delays depending on your experience
 - Putty is the only telnet and serial client I tested with.  You may have a different experience, but I had a heck of a time getting the output right.  If you run into issues, serial.h is likely where you should look
 - Wifi is not required, but is handy so I start it automatically and fail gracefully if it can't connect or is provided invalid credentials in the \SD Card Files\z80\creds.txt file.  The original emulator kept it in credentials.h and you had to build the project each time you wanted to change networks.  While not very secure, it is now in a plain text file.  Now you know.
+- Exiting Zork requires you to reset the Cardputer to get back to the CP/M prompt.
 
 Thank you to the original author, David Bottrill, for the heavy lifting.
 
