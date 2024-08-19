@@ -6,7 +6,7 @@ Previous updates from the original branch down below.  Before that, however, are
 
 To install:
 1.  Clone this repo or download the code and unzip
-2.  Edit credentials.h to include your network's SSID and password.  This is so you can telnet to the Cardputer and not have to connect it by USB/serial to use it (although you can still do so).
+2.  Edit \Z80-4-M5Cardputer-main\SD Card Files\z80\creds.txt to include your network's SSID and password.  Replace the examples with your SSID and wifi password (remove the "<" and ">" symbols).  This is so you can telnet to the Cardputer and not have to connect it by USB/serial to use it (although you can still do so).
 3.  Open ESP32_Z80_Emulator.ino in the \ESP32_Z80_Emulator folder with Arduino IDE
 4.  In the Sketch menu, choose "Export Compiled Binary"  (you may need to install dependencies if it screams during compilation)
 5.  Once compiled, grab the ESP32_Z80_Emulator.ino.bin from the build folder and place on the SD card (with M5 Launcher already installed) into the downloads folder
@@ -22,7 +22,7 @@ Notes:
 - SDCOPY.com will copy files from the \z80\xfer folder to the A: drive
 - The code is sprinkled with vTaskDelay() commands.  Some seemed to be needed, some might not be, and others were commented out already.  You may wish to change the length of the delays depending on your experience
 - Putty is the only telnet and serial client I tested with.  You may have a different experience, but I had a heck of a time getting the output right.  If you run into issues, serial.h is likely where you should look
-- At some point, I would like to make it so a plain text file on the SD would hold the network credentials, but that is for another day.  If anybody wants to give it a shot, please do so and I will add it.
+- Wifi is not required, but is handy so I start it automatically and fail gracefully if it can't connect or is provided invalid credentials in the \SD Card Files\z80\creds.txt file.  The original emulator kept it in credentials.h and you had to build the project each time you wanted to change networks.  While not very secure, it is now in a plain text file.  Now you know.
 
 Thank you to the original author, David Bottrill, for the heavy lifting.
 
