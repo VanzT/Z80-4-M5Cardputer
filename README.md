@@ -33,6 +33,8 @@ My updates are all post-2023 below.
 Fixed telnet bugs with Zork
 Notify users of wifi connection attempt at bootup so we don't stare at it wondering if it is doing nothing
 Do not reboot if wifi connection fails
+Wifi credentials now stored on SD card
+
 *************************
 
 *** Update 07/08/2024 ***
