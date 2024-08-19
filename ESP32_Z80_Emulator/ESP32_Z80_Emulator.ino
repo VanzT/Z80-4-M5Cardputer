@@ -9,7 +9,6 @@
 #include <ESPmDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
-#include <credentials.h>  //My WiFi credentials are in a custom Library
 
 //Include local header files
 #include "globals.h"
