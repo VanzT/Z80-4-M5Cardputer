@@ -5,12 +5,12 @@ Forked from djbottrill/ESP32-Z80-Emulator, I tweaked this to work on the M5Stack
 Previous updates from the original branch down below.  Before that, however, are instructions for this version and misc. notes.
 
 To install:
-1.  Clone this repo or download the code and unzip
+1.  Clone this repo or download the code and unzip.  Alternatively, download ESP32_Z80_Emulator/release/ESP32_Z80_Emulator.bin and place on your SD card in the downloads folder and skip steps 3-5.
 2.  Edit \Z80-4-M5Cardputer-main\SD Card Files\z80\creds.txt to include your network's SSID and password.  Replace the examples with your SSID and wifi password (remove the "<" and ">" symbols).  This is so you can telnet to the Cardputer and not have to connect it by USB/serial to use it (although you can still do so).
 3.  Open ESP32_Z80_Emulator.ino in the \ESP32_Z80_Emulator folder with Arduino IDE
 4.  In the Sketch menu, choose "Export Compiled Binary"  (you may need to install dependencies if it screams during compilation)
 5.  Once compiled, grab the ESP32_Z80_Emulator.ino.bin from the build folder and place on the SD card (with M5 Launcher already installed) into the downloads folder
-6.  From the SD Card Files folder, get boot.txt, the z80 folder, and the disks folder and place on the root of the SD card
+6.  From the \SD Card Files\ folder, get boot.txt, the \z80 folder, and the \disks folder and place on the root of the SD card
 7.  Eject the card and put back into the Cardputer
 8.  Boot it up and install the bin like you would any other firmware in M5Launcher
 9.  Either connect using USB to a Windows machine and connect using Putty over serial to whatever com port the PC decides on, or telnet to the IP address shown on the Cardputer screen once it fully initialized.  Or do both... at the same time! Yeah, that works too.
