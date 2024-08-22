@@ -1,7 +1,10 @@
 # Z80-4-M5Cardputer
 
 
-Forked from djbottrill/ESP32-Z80-Emulator, I tweaked this to work on the M5Stack Cardputer running M5Launcher.
+Forked from djbottrill/ESP32-Z80-Emulator, this is a Z80 emulator running CP/M (think pre MS-DOS) that I tweaked to work on the M5Stack Cardputer running M5Launcher.
+
+I did this because I liked the idea of running an old OS on a tiny, credit card sized computer and playimg text adventure games over telnet.  Basic nerd stuff.
+
 Previous updates from the original branch down below.  Before that, however, are instructions for this version and misc. notes.
 
 To install:
