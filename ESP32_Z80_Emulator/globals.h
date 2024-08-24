@@ -18,6 +18,11 @@ WiFiServer server(23);
 WiFiClient serverClient;
 const char *hostName = "esp80";   //Hostname
 
+extern bool useLED;
+#define LED_PIN 21     // The GPIO pin connected to the LED data line
+#define NUM_LEDS 1     // Number of LEDs (assuming 1)
+#define BRIGHTNESS 255  // Adjust the brightness
+CRGB leds[NUM_LEDS];
 
 #define S3
 
