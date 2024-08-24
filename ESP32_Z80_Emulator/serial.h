@@ -5,7 +5,7 @@
 int redValue = 0, greenValue = 0, blueValue = 0;
 int redIncrement = 1, greenIncrement = 2, blueIncrement = 3;
 
-// Function to update the LED colors in a biorhythm pattern
+// Function to update the LED colors in a psudeo biorhythm pattern
 void updateLedColor() {
   redValue += redIncrement;
   greenValue += greenIncrement;
@@ -32,8 +32,14 @@ void serialTask(void *parameter) {
     while (txOutPtr != txInPtr) {
       Serial.write(txBuf[txOutPtr]);  // Send char to console
       if (serverClient.connected()) {
-        updateLedColor();  // Update LED color in biorhythm pattern
-        serverClient.write(txBuf[txOutPtr]);  // Send via Telnet if client connected
+        if (useLED) {
+          updateLedColor();  
+          serverClient.write(txBuf[txOutPtr]);  // Send via Telnet if client connected
+          leds[0] = CRGB::Black;
+          FastLED.show();
+        } else {
+          serverClient.write(txBuf[txOutPtr]);  // Send via Telnet if client connected
+        }
       }
       txOutPtr++;  // Increment Output buffer pointer
       if (txOutPtr == sizeof(txBuf)) txOutPtr = 0;  // Wrap around circular buffer
