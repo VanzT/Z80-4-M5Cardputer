@@ -3,6 +3,7 @@
 #include <SPI.h>
 #include <SD.h>
 #include <M5Unified.h>
+#include <FastLED.h>
 
 //Needed for OTA
 #include <WiFi.h>
@@ -23,9 +24,13 @@
 
 
 void setup() {
-  pinMode(21, OUTPUT);  //Built in LED functions as disk activity indicator
+
+  //pinMode(21, OUTPUT);  //Built in LED functions as disk activity indicator
   pinMode(swA, INPUT_PULLUP);    //BreakPoint switch inputs
   M5.begin();
+  FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS); // Set the correct LED type
+  FastLED.setBrightness(BRIGHTNESS);
+
   Serial.begin(115200);
   //while (!Serial) //might be needed for other boards, but not M5StampS3
   //  ;  //just keep going
