@@ -22,21 +22,60 @@
 #include "telnet.h"
 #include "oled.h"
 
+// Global variable for LED control
+bool useLED = true;
+
+void readLEDSetting() {
+  File file = SD.open("/z80/creds.txt", FILE_READ);
+  if (!file) {
+    Serial.println("Failed to open creds.txt");
+    useLED = true;  // Default to true if the file can't be opened
+    return;
+  }
+
+  useLED = true;  // Default to true in case LED = line is missing or empty
+
+  while (file.available()) {
+    String line = file.readStringUntil('\n');
+    line.trim();
+    if (line.startsWith("LED =")) {
+      String value = line.substring(5);
+      value.trim();
+      if (value.length() > 0) {
+        useLED = value.equalsIgnoreCase("on");
+      }
+      break;
+    }
+  }
+  file.close();
+}
 
 void setup() {
-
-  //pinMode(21, OUTPUT);  //Built in LED functions as disk activity indicator
-  pinMode(swA, INPUT_PULLUP);    //BreakPoint switch inputs
   M5.begin();
-  FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS); // Set the correct LED type
-  FastLED.setBrightness(BRIGHTNESS);
-
-  Serial.begin(115200);
-  //while (!Serial) //might be needed for other boards, but not M5StampS3
-  //  ;  //just keep going
   M5.Display.setCursor(10, 10);
   M5.Display.setTextColor(TFT_WHITE);
   M5.Display.setTextSize(2);
+  // Initialize SD card
+  sdSPI.begin(SCK, MISO, MOSI, SS);
+  if (!SD.begin(SS, sdSPI)) {
+    M5.Display.println("Card Mount Failed");
+    return;
+  }
+
+  // Read the LED setting from creds.txt
+  readLEDSetting();
+
+
+  // Initialize FastLED only if useLED is true
+  if (useLED) {
+    FastLED.addLeds<WS2812, LED_PIN, GRB>(leds, NUM_LEDS);  // Set the correct LED type
+    FastLED.setBrightness(BRIGHTNESS);
+  }
+  pinMode(swA, INPUT_PULLUP);    //BreakPoint switch inputs
+
+  Serial.begin(115200);
+  //while (!Serial) //might be needed for other boards, but not M5StampS3
+  //  ;             // so just keep going
   M5.Display.println("Z80 for Cardputer");
   M5.Display.println(" ");
   M5.Display.setTextColor(TFT_RED);
