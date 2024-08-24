@@ -9,7 +9,7 @@ Previous updates from the original branch down below.  Before that, however, are
 
 To install:
 
-Quick (is 17 minutes quick?) video to get you running or follow instrunctions below - https://www.youtube.com/watch?v=Q3s67ilp_zs
+Quick (is 17 minutes quick?) video to get you running or follow instructions below - https://www.youtube.com/watch?v=Q3s67ilp_zs
 
 1.  Clone this repo or download the code and unzip.  Alternatively, download /ESP32_Z80_Emulator/release/ESP32_Z80_Emulator.bin and place on your SD card in the downloads folder and skip steps 3-5.
 2.  Edit \Z80-4-M5Cardputer-main\SD Card Files\z80\creds.txt to include your network's SSID and password.  Replace the examples with your SSID and wifi password (remove the "<" and ">" symbols).  This is so you can telnet to the Cardputer and not have to connect it by USB/serial to use it (although you can still do so).
