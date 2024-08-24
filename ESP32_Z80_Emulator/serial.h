@@ -1,6 +1,7 @@
 #include "globals.h"
 #pragma once
 
+
 //*********************************************************************************************
 //****                      Serial input and output buffer task                            ****
 //*********************************************************************************************
@@ -16,7 +17,11 @@ void serialTask(void *parameter) {
     while (txOutPtr != txInPtr) {     //Have we received any chars?)
       Serial.write(txBuf[txOutPtr]);  //Send char to console
       if (serverClient.connected()) {
+        leds[0] = CRGB(0,0,255);
+        FastLED.show();      // Display the color
         serverClient.write(txBuf[txOutPtr]);  //Send via Telnet if client connected
+        leds[0] = CRGB::Black;
+        FastLED.show(); 
         //vTaskDelay(1);
       }
       txOutPtr++;                                   //Inc Output buffer pointer
