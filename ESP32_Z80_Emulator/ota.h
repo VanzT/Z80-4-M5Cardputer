@@ -46,7 +46,7 @@ void OTAtask(void *parameter) {
   String ssid, password;
 
   // Mount SD card
-  sdSPI.begin(SCK, MISO, MOSI, SS);
+  // sdSPI.begin(SCK, MISO, MOSI, SS); //should already be mounted in setup()
   if (!SD.begin(SS, sdSPI)) {
     Serial.println("SD card initialization failed!");
     return;
