@@ -45,15 +45,20 @@ My updates are all post-2023 below.
 *** Update 24/08/2024 ***
 
 LED now blinks and changes color with each character output to telnet
+
 LED use can be configured to be off in creds.txt
+
 Some cleanup
 
 *************************
 *** Update 18/08/2024 ***
 
 Fixed telnet bugs with Zork
+
 Notify users of wifi connection attempt at bootup so we don't stare at it wondering if it is doing nothing
+
 Do not reboot if wifi connection fails
+
 Wifi credentials now stored on SD card
 
 *************************
