@@ -29,7 +29,7 @@ Quick (is 17 minutes quick?) video to get you running or follow instructions bel
 10.  Play Zork and don't get eaten by a grue.
 
 Notes:
-- Zork I, II, and III will work right away.  There are other games (in BASIC or otherwise, that may or may not work without fiddling around.  YMMV.)
+- Zork I, II, and III will work right away.  There are other games (in BASIC or otherwise) that may or may not work without fiddling around.  YMMV.)
 - There will be an A: drive already present with utilities.  You can clone this by taking A.dsk from the layout, changing the name to B.dsk (for example) and putting in the \disks folder on the SD card.  From there, you can format it from within CP/M.  Original author says you can create up to 16 (A: through P:), but I haven't done that.
 - SDFILES.com on the A: drive will show you files present in the \z80\xfer folder of the SD card.  You can find Zork here which was a pleasant surprise for me.
 - SDCOPY.com will copy files from the \z80\xfer folder to the A: drive
@@ -41,6 +41,13 @@ Notes:
 Thank you to the original author, David Bottrill, for the heavy lifting.
 
 My updates are all post-2023 below.
+*************************
+*** Update 24/08/2024 ***
+
+LED now blinks and changes color with each character output to telnet
+LED use can be configured to be off in creds.txt
+Some cleanup
+
 *************************
 *** Update 18/08/2024 ***
 
