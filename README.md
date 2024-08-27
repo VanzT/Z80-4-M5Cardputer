@@ -22,7 +22,7 @@ Quick (is 17 minutes quick?) video to get you running or follow instructions bel
       |-boot.txt
       |-\z80\creds.txt (and other files/folders)
       |-\disks\A.dsk
-      |-\downloads\ESP32_Z80_Emulator.bin
+      |_\downloads\ESP32_Z80_Emulator.bin
 7.  Eject the card and put back into the Cardputer
 8.  Boot it up and install the bin like you would any other firmware in M5Launcher
 9.  Either connect using USB to a Windows machine and connect using Putty over serial to whatever com port the PC decides on, or telnet to the IP address shown on the Cardputer screen once it is fully initialized.  Or do both... at the same time! Yeah, that works too.
