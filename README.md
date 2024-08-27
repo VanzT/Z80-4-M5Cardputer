@@ -16,7 +16,9 @@ Quick (is 17 minutes quick?) video to get you running or follow instructions bel
 3.  Optionally, turn off the use of the Cardputer onboard LED by setting LED = off in the creds.txt file
 4.  In the extracted files you got from this repo, grab the \ESP32_Z80_Emulator\release\ESP32_Z80_Emulator.bin file and place on the SD card (with M5 Launcher already installed) into the \downloads folder on the root of the SD card.  If a \downloads folder does not already exist on the root of your SD card, create one and put the .bin file in there as described.
 5.  In the extracted files you got from this repo, get \SD Card Files\boot.txt, the \z80 folder, and the \disks folder and place all 3 on the root of the SD card which will then look like this:
-   SD Card
+
+   SD Card:
+
       |-boot.txt
       |-\z80\creds.txt (and other files/folders)
       |-\disks\A.dsk
