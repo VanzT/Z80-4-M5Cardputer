@@ -11,19 +11,23 @@ To install:
 
 Quick (is 17 minutes quick?) video to get you running or follow instructions below - https://www.youtube.com/watch?v=Q3s67ilp_zs
 
-1.  Clone this repo or download the code and unzip.  Alternatively, download /ESP32_Z80_Emulator/release/ESP32_Z80_Emulator.bin and place on your SD card in the downloads folder and skip steps 4-6.
-2.  Edit \Z80-4-M5Cardputer-main\SD Card Files\z80\creds.txt to include your network's SSID and password.  Replace the examples with your SSID and wifi password (remove the "<" and ">" symbols).  This is so you can telnet to the Cardputer and not have to connect it by USB/serial to use it (although you can still do so).
-3.  Optionally, turn off the LED by setting LED = off in the creds.txt file
-4.  Open ESP32_Z80_Emulator.ino in the \ESP32_Z80_Emulator folder with Arduino IDE
-5.  In the Sketch menu, choose "Export Compiled Binary"  (you may need to install dependencies if it screams during compilation)
-6.  Once compiled, grab the ESP32_Z80_Emulator.ino.bin from the build folder and place on the SD card (with M5 Launcher already installed) into the downloads folder
-7.  From the \SD Card Files\ folder, get boot.txt, the \z80 folder, and the \disks folder and place on the root of the SD card
-8.  Eject the card and put back into the Cardputer
-9.  Boot it up and install the bin like you would any other firmware in M5Launcher
-10.  Either connect using USB to a Windows machine and connect using Putty over serial to whatever com port the PC decides on, or telnet to the IP address shown on the Cardputer screen once it is fully initialized.  Or do both... at the same time! Yeah, that works too.
-11.  Play Zork and don't get eaten by a grue.
+1.  Clone this repo or download it as a zip file to your local machine (NOT THE CARDPUTER) and unzip.  
+2.  In the extracted files you got from this repo, edit \Z80-4-M5Cardputer-main\SD Card Files\z80\creds.txt to include your network's SSID and password.  Replace the examples with your SSID and wifi password (remove the "<" and ">" symbols).  This is so you can telnet to the Cardputer and not have to connect it by USB/serial to use it (although you can still do so).
+3.  Optionally, turn off the use of the Cardputer onboard LED by setting LED = off in the creds.txt file
+4.  In the extracted files you got from this repo, grab the \ESP32_Z80_Emulator\release\ESP32_Z80_Emulator.bin file and place on the SD card (with M5 Launcher already installed) into the \downloads folder on the root of the SD card.  If a \downloads folder does not already exist on the root of your SD card, create one and put the .bin file in there as described.
+5.  In the extracted files you got from this repo, get \SD Card Files\boot.txt, the \z80 folder, and the \disks folder and place all 3 on the root of the SD card which will then look like this:
+   SD Card
+      |-boot.txt
+      |-\z80\creds.txt (and other files/folders)
+      |-\disks\A.dsk
+      |-\downloads\ESP32_Z80_Emulator.bin
+7.  Eject the card and put back into the Cardputer
+8.  Boot it up and install the bin like you would any other firmware in M5Launcher
+9.  Either connect using USB to a Windows machine and connect using Putty over serial to whatever com port the PC decides on, or telnet to the IP address shown on the Cardputer screen once it is fully initialized.  Or do both... at the same time! Yeah, that works too.
+10.  Play Zork and don't get eaten by a grue.
 
 Notes:
+- Zork I, II, and III will work right away.  There are other games (in BASIC or otherwise, that may or may not work without fiddling around.  YMMV.)
 - There will be an A: drive already present with utilities.  You can clone this by taking A.dsk from the layout, changing the name to B.dsk (for example) and putting in the \disks folder on the SD card.  From there, you can format it from within CP/M.  Original author says you can create up to 16 (A: through P:), but I haven't done that.
 - SDFILES.com on the A: drive will show you files present in the \z80\xfer folder of the SD card.  You can find Zork here which was a pleasant surprise for me.
 - SDCOPY.com will copy files from the \z80\xfer folder to the A: drive
