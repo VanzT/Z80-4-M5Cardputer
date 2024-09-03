@@ -42,7 +42,14 @@ Thank you to the original author, David Bottrill, for the heavy lifting.
 
 My updates are all post-2023 below.
 *************************
-*** Update 24/08/2024 ***
+*** Update 03/09/2024 v1.2 ***
+
+Cleaned up (sort of) garbage characters on Telnet connection.
+
+Added i: drive with Infocom text adventure games that, at least, appear to work.  YMMV
+
+*************************
+*** Update 24/08/2024 v1.1 ***
 
 LED now blinks and changes color with each character output to telnet
 
@@ -51,7 +58,7 @@ LED use can be configured to be off in creds.txt
 Some cleanup
 
 *************************
-*** Update 18/08/2024 ***
+*** Update 18/08/2024 v1.0 ***
 
 Fixed telnet bugs with Zork
 
