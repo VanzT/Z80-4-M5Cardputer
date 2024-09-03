@@ -36,7 +36,7 @@ Notes:
 - The code is sprinkled with vTaskDelay() commands.  Some seemed to be needed, some might not be, and others were commented out already.  You may wish to change the length of the delays depending on your experience
 - Putty is the only telnet and serial client I tested with.  You may have a different experience, but I had a heck of a time getting the output right.  If you run into issues, serial.h is likely where you should look
 - Wifi is not required, but is handy so I start it automatically and fail gracefully if it can't connect or is provided invalid credentials in the \SD Card Files\z80\creds.txt file.  The original emulator kept it in credentials.h and you had to build the project each time you wanted to change networks.  While not very secure, it is now in a plain text file.  Now you know.
-- Exiting any game requires you to reset the Cardputer to get back to the CP/M prompt.  This does not apply to BASIC games, but exiting BASIC also requires a reset of the Cardputer.
+- Exiting any game requires you to reset the Cardputer to get back to the CP/M prompt.  This does not apply to BASIC games.
 
 Thank you to the original author, David Bottrill, for the heavy lifting.
 
