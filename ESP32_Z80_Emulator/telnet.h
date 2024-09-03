@@ -74,7 +74,7 @@ void TelnetTask(void *parameter) {
         serverClient.write(255);  // IAC
         serverClient.write(252);  // WONT
         serverClient.write(34);   // LINEMODE
-        //vTaskDelay(100);
+        vTaskDelay(1000); //helps to clear the garbage chars before the CP/M prompt is presented
         serverClient.write(27);   //Print "esc"
         serverClient.print("c");  //Send esc c to reset screen
         //vTaskDelay(100);
@@ -82,6 +82,7 @@ void TelnetTask(void *parameter) {
           serverClient.println(banner[i]);
           //vTaskDelay(1);
         };
+        vTaskDelay(1000); 
         while (serverClient.available()) serverClient.read();  //Get rid of any garbage received
         //vTaskDelay(500);
         RUN = false;  //Force Z80 reboot
