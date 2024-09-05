@@ -1,6 +1,10 @@
 #include "globals.h"
 #pragma once
 
+bool ledOn = false;  // Flag to track LED state
+int ledToggleCounter = 0;  // Counter to control LED toggling
+int toggleInterval = 10;  // Adjust this value to control blinking speed
+
 // Variables for biorhythm-like LED control
 int redValue = 0, greenValue = 0, blueValue = 0;
 int redIncrement = 1, greenIncrement = 2, blueIncrement = 3;
@@ -28,22 +32,38 @@ void serialTask(void *parameter) {
   serial_t = true;
 
   for (;;) {
-    // Check for chars to be sent
-    while (txOutPtr != txInPtr) {
-      Serial.write(txBuf[txOutPtr]);  // Send char to console
-      if (serverClient.connected()) {
-        if (useLED) {
-          updateLedColor();  
-          serverClient.write(txBuf[txOutPtr]);  // Send via Telnet if client connected
-          leds[0] = CRGB::Black;
-          FastLED.show();
-        } else {
-          serverClient.write(txBuf[txOutPtr]);  // Send via Telnet if client connected
+  // Check for chars to be sent
+  while (txOutPtr != txInPtr) {
+    Serial.write(txBuf[txOutPtr]);  // Send char to console
+
+    if (serverClient.connected() && telnetReady) {
+      if (useLED) {
+        ledToggleCounter++;
+        // Toggle LED every 'toggleInterval' characters
+        if (ledToggleCounter >= toggleInterval) {
+          if (ledOn) {
+            leds[0] = CRGB::Black;  // Turn LED off
+            FastLED.show();
+          } else {
+            updateLedColor();  // Turn LED on
+          }
+          ledOn = !ledOn;  // Toggle the LED state
+          ledToggleCounter = 0;  // Reset the counter
         }
+        serverClient.write(txBuf[txOutPtr]);  // Send via Telnet if client connected
+      } else {
+        serverClient.write(txBuf[txOutPtr]);  // Send via Telnet if client connected
       }
+    }
       txOutPtr++;  // Increment Output buffer pointer
       if (txOutPtr == sizeof(txBuf)) txOutPtr = 0;  // Wrap around circular buffer
       vTaskDelay(1);
+    }
+    // Ensure the LED is turned off when no more chars are being sent
+    if (useLED && ledOn) {
+      leds[0] = CRGB::Black;  // Turn LED off
+      FastLED.show();
+      ledOn = false;  // Reset the flag
     }
 
     // Check for Received chars from Serial
