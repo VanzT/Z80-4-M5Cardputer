@@ -8,12 +8,7 @@
 void TelnetTask(void *parameter) {
   server.begin();
   server.setNoDelay(true);
-
-  // Ensure Serial is available before printing
-//  while (!Serial) {
-//    vTaskDelay(10); // Wait for Serial to become available
-//  }
-
+  
   const char *startMsg = "Telnet Task Started:\n\r";
   const char *useMsg = "\n\r***Use 'telnet ";
   const char *endMsg = "' to connect***\n\r";
@@ -38,7 +33,7 @@ void TelnetTask(void *parameter) {
   }
   vTaskDelay(1);
   Serial.write(endMsg, strlen(endMsg));
-  vTaskDelay(3000);
+  vTaskDelay(1000);
   telnet_t = true;
 
   M5.Display.fillScreen(TFT_BLACK);
@@ -58,33 +53,33 @@ void TelnetTask(void *parameter) {
 
   for (;;) {
     if (server.hasClient()) {
+      telnetReady = false;
       serverClient = server.available();
-      //if (serverClient) {
+        vTaskDelay(500); //might not be needed
+        while (serverClient.available()) serverClient.read();  //Get rid of any garbage received
+        vTaskDelay(500);  //might not be needed
         Serial.print("\n\rNew Telnet client @ ");
         Serial.println(serverClient.remoteIP());
-        //vTaskDelay(100);
+        vTaskDelay(100);
         serverClient.write(255);  // IAC
         serverClient.write(251);  // WILL
         serverClient.write(1);    // ECHO
-        //vTaskDelay(100);
+        vTaskDelay(100);
         serverClient.write(255);  // IAC
         serverClient.write(251);  // WILL
         serverClient.write(3);    // suppress go ahead
-        //vTaskDelay(100);
+        vTaskDelay(100);
         serverClient.write(255);  // IAC
         serverClient.write(252);  // WONT
         serverClient.write(34);   // LINEMODE
-        vTaskDelay(1000); //helps to clear the garbage chars before the CP/M prompt is presented
+        telnetReady = true;
         serverClient.write(27);   //Print "esc"
         serverClient.print("c");  //Send esc c to reset screen
-        //vTaskDelay(100);
+        vTaskDelay(100);
         for (int i = 0; i < 11; i++) {
           serverClient.println(banner[i]);
-          //vTaskDelay(1);
+          vTaskDelay(1);
         };
-        vTaskDelay(1000); 
-        while (serverClient.available()) serverClient.read();  //Get rid of any garbage received
-        //vTaskDelay(500);
         RUN = false;  //Force Z80 reboot
       //}
     }
