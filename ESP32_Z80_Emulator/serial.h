@@ -32,33 +32,34 @@ void serialTask(void *parameter) {
   serial_t = true;
 
   for (;;) {
-  // Check for chars to be sent
-  while (txOutPtr != txInPtr) {
-    Serial.write(txBuf[txOutPtr]);  // Send char to console
+    // Check for chars to be sent
+    while (txOutPtr != txInPtr) {
+      Serial.write(txBuf[txOutPtr]);  // Send char to console
 
-    if (serverClient.connected() && telnetReady) {
-      if (useLED) {
-        ledToggleCounter++;
-        // Toggle LED every 'toggleInterval' characters
-        if (ledToggleCounter >= toggleInterval) {
-          if (ledOn) {
-            leds[0] = CRGB::Black;  // Turn LED off
-            FastLED.show();
-          } else {
-            updateLedColor();  // Turn LED on
+      if (serverClient.connected() && telnetReady) {
+        if (useLED) {
+          ledToggleCounter++;
+          // Toggle LED every 'toggleInterval' characters
+          if (ledToggleCounter >= toggleInterval) {
+            if (ledOn) {
+              leds[0] = CRGB::Black;  // Turn LED off
+              FastLED.show();
+            } else {
+              updateLedColor();  // Turn LED on
+            }
+            ledOn = !ledOn;  // Toggle the LED state
+            ledToggleCounter = 0;  // Reset the counter
           }
-          ledOn = !ledOn;  // Toggle the LED state
-          ledToggleCounter = 0;  // Reset the counter
+          serverClient.write(txBuf[txOutPtr]);  // Send via Telnet if client connected
+        } else {
+          serverClient.write(txBuf[txOutPtr]);  // Send via Telnet if client connected
         }
-        serverClient.write(txBuf[txOutPtr]);  // Send via Telnet if client connected
-      } else {
-        serverClient.write(txBuf[txOutPtr]);  // Send via Telnet if client connected
       }
-    }
       txOutPtr++;  // Increment Output buffer pointer
       if (txOutPtr == sizeof(txBuf)) txOutPtr = 0;  // Wrap around circular buffer
       vTaskDelay(1);
     }
+
     // Ensure the LED is turned off when no more chars are being sent
     if (useLED && ledOn) {
       leds[0] = CRGB::Black;  // Turn LED off
