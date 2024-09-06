@@ -42,6 +42,15 @@ Thank you to the original author, David Bottrill, for the heavy lifting.
 
 My updates are all post-2023 below.
 *************************
+*** Update 05/09/2024 v1.3 ***
+
+MUCH better garbage characters on Telnet connection.
+
+Better (I think, at least) blinkenlights
+
+Some cleanup of delays
+
+*************************
 *** Update 03/09/2024 v1.2 ***
 
 Cleaned up (sort of) garbage characters on Telnet connection.
