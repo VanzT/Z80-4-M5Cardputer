@@ -25,6 +25,8 @@
 // Global variable for LED control
 bool useLED = true;
 
+bool telnetReady = false;
+
 void readLEDSetting() {
   File file = SD.open("/z80/creds.txt", FILE_READ);
   if (!file) {
