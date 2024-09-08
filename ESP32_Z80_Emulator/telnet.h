@@ -41,12 +41,18 @@ void TelnetTask(void *parameter) {
   M5.Display.setTextColor(TFT_WHITE);
   M5.Display.setTextSize(2);
   M5.Display.println("Z80 for Cardputer");
-  M5.Display.setCursor(30, 40);
+  M5.Display.setCursor(10, 40);
   M5.Display.println("TELNET TO: ");
-  M5.Display.setCursor(30, 60);
+  M5.Display.setCursor(10, 60);
   M5.Display.setTextColor(TFT_YELLOW);
   if (isValidIP) {
+    if (ipString.length() > 12) {
+        M5.Display.setTextSize(2);  // Decrease font size if IP length is greater than 12
+    } else {
+        M5.Display.setTextSize(3);  // Default font size for IP address
+    }
     M5.Display.println(ipString);
+    M5.Display.setTextSize(2);
   } else {
     M5.Display.println("not available");
   }
