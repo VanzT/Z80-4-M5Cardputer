@@ -51,11 +51,10 @@ void TelnetTask(void *parameter) {
     M5.Display.setTextColor(TFT_WHITE);
     M5.Display.setTextSize(2);
     M5.Display.println("Z80 for Cardputer");
-    //M5.Display.setCursor(10, 40);
-    M5.Display.println(" ");
+    M5.Display.setCursor(10, 50);
     M5.Display.setTextColor(TFT_GREEN);
     M5.Display.println("SSID: Z80-AP");
-    M5.Display.println(" ");
+    M5.Display.setCursor(10, 70);
     M5.Display.println("Pass: Z80-password");
     vTaskDelay(30000);
   }
@@ -65,9 +64,9 @@ void TelnetTask(void *parameter) {
   M5.Display.setTextColor(TFT_WHITE);
   M5.Display.setTextSize(2);
   M5.Display.println("Z80 for Cardputer");
-  M5.Display.setCursor(10, 40);
+  M5.Display.setCursor(10, 50);
   M5.Display.println("TELNET TO: ");
-  M5.Display.setCursor(10, 60);
+  M5.Display.setCursor(10, 70);
   if (isValidIP) {
     if (ipString.length() > 12) {
         M5.Display.setTextSize(2);  // Decrease font size if IP length is greater than 12
