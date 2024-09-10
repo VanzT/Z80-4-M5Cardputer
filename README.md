@@ -12,11 +12,10 @@ To install:
 Quick (is 17 minutes quick?) video to get you running or follow instructions below - https://www.youtube.com/watch?v=Q3s67ilp_zs
 
 1.  Clone this repo or download it as a zip file to your local machine (NOT THE CARDPUTER) and unzip.  
-2.  In the extracted files you got from this repo, edit \Z80-4-M5Cardputer-main\SD Card Files\z80\creds.txt to include your network's SSID and password.  Replace the examples with your SSID and wifi password (remove the "<" and ">" symbols).  This is so you can telnet to the Cardputer and not have to connect it by USB/serial to use it (although you can still do so).
-   2a. As of release 1.4, if connection to local wifi fails, the cardputer will now setup an access point.  See release v1.4 notes below.
-4.  Optionally, turn off the use of the Cardputer onboard LED by setting LED = off in the creds.txt file
-5.  In the extracted files you got from this repo, grab the \ESP32_Z80_Emulator\release\ESP32_Z80_Emulator.bin file and place on the SD card (with M5 Launcher already installed) into the \downloads folder on the root of the SD card.  If a \downloads folder does not already exist on the root of your SD card, create one and put the .bin file in there as described.
-6.  In the extracted files you got from this repo, get \SD Card Files\boot.txt, the \z80 folder, and the \disks folder and place all 3 on the root of the SD card which will then look like this:
+2.  In the extracted files you got from this repo, edit \Z80-4-M5Cardputer-main\SD Card Files\z80\creds.txt to include your network's SSID and password.  Replace the examples with your SSID and wifi password (remove the "<" and ">" symbols).  This is so you can telnet to the Cardputer and not have to connect it by USB/serial to use it (although you can still do so).  NOTE: starting in release 1.4, the Cardputer will fall back to setting up an access point if it cannot connect to your local network.  See 1.4 update below.
+3.  Optionally, turn off the use of the Cardputer onboard LED by setting LED = off in the creds.txt file
+4.  In the extracted files you got from this repo, grab the \ESP32_Z80_Emulator\release\ESP32_Z80_Emulator.bin file and place on the SD card (with M5 Launcher already installed) into the \downloads folder on the root of the SD card.  If a \downloads folder does not already exist on the root of your SD card, create one and put the .bin file in there as described.
+5.  In the extracted files you got from this repo, get \SD Card Files\boot.txt, the \z80 folder, and the \disks folder and place all 3 on the root of the SD card which will then look like this:
 
    SD Card:
 
