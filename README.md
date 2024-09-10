@@ -46,7 +46,7 @@ My updates are all post-2023 below.
 
 Added battery level text to screen
 
-If connection to local Wi-Fi fails, fall back to setting up an access point.  The access point details (SSID and password) are displayed on the screen for 30 seconds.  (Z80-ap / Z80-password).  If the screen tells you to "TELNET TO:" an IP address that is green, the AP mode is active and you need to join the Z80-ap network first.  If the IP address is yellow, you are connected to your local network that you configured in creds.txt.
+If connection to local Wi-Fi fails, the Cardputer will now fall back to setting up an access point.  The access point details (SSID and password) are displayed on the screen for 30 seconds.  (Z80-ap / Z80-password).  If the next screen tells you to "TELNET TO:" an IP address that is green, the AP mode is active and you need to join the Z80-ap network first.  If the IP address is yellow, you are connected to your local network that you configured in creds.txt.
 
 Screen text cleanup.  Needs more
 
