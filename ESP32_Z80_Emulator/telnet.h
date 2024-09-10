@@ -6,19 +6,28 @@
 //****                                 Telnet task                                         ****
 //*********************************************************************************************
 void TelnetTask(void *parameter) {
+
   server.begin();
   server.setNoDelay(true);
-  
   const char *startMsg = "Telnet Task Started:\n\r";
   const char *useMsg = "\n\r***Use 'telnet ";
   const char *endMsg = "' to connect***\n\r";
 
-  // Get the local IP address
+  // Get the local IP address (client mode)
   IPAddress localIP = WiFi.localIP();
+  // Get the SoftAP IP address (access point mode)
+  IPAddress apIP = WiFi.softAPIP();
+
+  // Convert IP addresses to strings for display purposes
   String ipString = localIP.toString();
-  
-  // Check if the IP address is valid
-  bool isValidIP = (localIP != IPAddress(0, 0, 0, 0)) && (ipString.length() > 0);
+  String apString = apIP.toString();
+
+  // Check if either the local IP (client mode) or SoftAP IP (access point mode) is valid
+  bool isValidIP = (localIP != IPAddress(0, 0, 0, 0) || apIP != IPAddress(0, 0, 0, 0)) && (ipString.length() > 0 || apString.length() > 0);
+  bool APMode = (localIP == IPAddress(0, 0, 0, 0) && apIP != IPAddress(0, 0, 0, 0));
+  if (APMode) {
+    ipString = apString;  //so we display the AP assigned address on the screen instead of local WiFi addr.
+  }
 
   // Use Serial.write for all parts of the message
   vTaskDelay(1000);
@@ -36,6 +45,21 @@ void TelnetTask(void *parameter) {
   vTaskDelay(1000);
   telnet_t = true;
 
+  if (APMode) {
+    M5.Display.fillScreen(TFT_BLACK);
+    M5.Display.setCursor(10, 10);
+    M5.Display.setTextColor(TFT_WHITE);
+    M5.Display.setTextSize(2);
+    M5.Display.println("Z80 for Cardputer");
+    //M5.Display.setCursor(10, 40);
+    M5.Display.println(" ");
+    M5.Display.setTextColor(TFT_GREEN);
+    M5.Display.println("SSID: Z80-AP");
+    M5.Display.println(" ");
+    M5.Display.println("Pass: Z80-password");
+    vTaskDelay(30000);
+  }
+
   M5.Display.fillScreen(TFT_BLACK);
   M5.Display.setCursor(10, 10);
   M5.Display.setTextColor(TFT_WHITE);
@@ -44,14 +68,19 @@ void TelnetTask(void *parameter) {
   M5.Display.setCursor(10, 40);
   M5.Display.println("TELNET TO: ");
   M5.Display.setCursor(10, 60);
-  M5.Display.setTextColor(TFT_YELLOW);
   if (isValidIP) {
     if (ipString.length() > 12) {
         M5.Display.setTextSize(2);  // Decrease font size if IP length is greater than 12
     } else {
         M5.Display.setTextSize(3);  // Default font size for IP address
     }
-    M5.Display.println(ipString);
+    if (APMode) {
+      M5.Display.setTextColor(TFT_GREEN);
+      M5.Display.println(apString);
+    } else {
+      M5.Display.setTextColor(TFT_YELLOW);
+      M5.Display.println(ipString);
+    }
     M5.Display.setTextSize(2);
   } else {
     M5.Display.println("not available");
