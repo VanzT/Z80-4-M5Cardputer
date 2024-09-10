@@ -65,48 +65,65 @@ void OTAtask(void *parameter) {
   WiFi.setHostname(hostName);
   ArduinoOTA.setHostname(hostName);
 
-  while (WiFi.waitForConnectResult() != WL_CONNECTED) {
-    Serial.println("Connection Failed!");
-    delay(5000);
-    break;
+  // Set a timeout for Wi-Fi connection (e.g., 10 seconds)
+  unsigned long startAttemptTime = millis();
+  bool connected = false;
+
+  while (WiFi.status() != WL_CONNECTED && millis() - startAttemptTime < 10000) {
+    delay(500);
+    Serial.print(".");
   }
 
-  ArduinoOTA
-      .onStart([]() {
-        String type;
-        if (ArduinoOTA.getCommand() == U_FLASH)
-          type = "sketch";
-        else  // U_SPIFFS
-          type = "filesystem";
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.print("\nWiFi Connected - IP address: ");
+    Serial.println(WiFi.localIP());
 
-        Serial.println("\n\rStart updating " + type);
-      })
-      .onEnd([]() {
-        Serial.println("\nEnd");
-      })
-      .onProgress([](unsigned int progress, unsigned int total) {
-        Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
-      })
-      .onError([](ota_error_t error) {
-        Serial.printf("Error[%u]: ", error);
-        if (error == OTA_AUTH_ERROR)
-          Serial.println("Auth Failed");
-        else if (error == OTA_BEGIN_ERROR)
-          Serial.println("Begin Failed");
-        else if (error == OTA_CONNECT_ERROR)
-          Serial.println("Connect Failed");
-        else if (error == OTA_RECEIVE_ERROR)
-          Serial.println("Receive Failed");
-        else if (error == OTA_END_ERROR)
-          Serial.println("End Failed");
-      });
+    ArduinoOTA
+        .onStart([]() {
+          String type;
+          if (ArduinoOTA.getCommand() == U_FLASH)
+            type = "sketch";
+          else  // U_SPIFFS
+            type = "filesystem";
 
-  Serial.print("WiFi Connected - IP address: ");
-  Serial.println(WiFi.localIP());
-  ArduinoOTA.begin();
-  Serial.println("\n\rOTA update Service Started\n\r");
-  vTaskDelay(10);
-  ota_t = true;
+          Serial.println("\nStart updating " + type);
+        })
+        .onEnd([]() {
+          Serial.println("\nEnd");
+        })
+        .onProgress([](unsigned int progress, unsigned int total) {
+          Serial.printf("Progress: %u%%\r", (progress / (total / 100)));
+        })
+        .onError([](ota_error_t error) {
+          Serial.printf("Error[%u]: ", error);
+          if (error == OTA_AUTH_ERROR)
+            Serial.println("Auth Failed");
+          else if (error == OTA_BEGIN_ERROR)
+            Serial.println("Begin Failed");
+          else if (error == OTA_CONNECT_ERROR)
+            Serial.println("Connect Failed");
+          else if (error == OTA_RECEIVE_ERROR)
+            Serial.println("Receive Failed");
+          else if (error == OTA_END_ERROR)
+            Serial.println("End Failed");
+        });
+
+    ArduinoOTA.begin();
+    Serial.println("\nOTA update Service Started\n");
+    ota_t = true;
+    connected = true;
+  } 
+
+  if (!connected) {
+    // If Wi-Fi connection fails, set up an access point
+    Serial.println("\nConnection Failed! Setting up Access Point...");
+    WiFi.softAP("Z80-AP", "Z80-password");  // Customize AP credentials as needed
+    IPAddress IP = WiFi.softAPIP();
+    Serial.print("Access Point IP address: ");
+    Serial.println(IP);
+    ArduinoOTA.begin();
+    ota_t = true;
+  }
 
   // OTA task loop
   while (1) {

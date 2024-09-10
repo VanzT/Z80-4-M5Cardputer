@@ -80,6 +80,7 @@ void setup() {
   //  ;             // so just keep going
   M5.Display.println("Z80 for Cardputer");
   M5.Display.println(" ");
+  M5.Display.println(" ");
   M5.Display.setTextColor(TFT_RED);
   M5.Display.println(" connecting to wifi");
   delay(2000);
