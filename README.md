@@ -13,9 +13,10 @@ Quick (is 17 minutes quick?) video to get you running or follow instructions bel
 
 1.  Clone this repo or download it as a zip file to your local machine (NOT THE CARDPUTER) and unzip.  
 2.  In the extracted files you got from this repo, edit \Z80-4-M5Cardputer-main\SD Card Files\z80\creds.txt to include your network's SSID and password.  Replace the examples with your SSID and wifi password (remove the "<" and ">" symbols).  This is so you can telnet to the Cardputer and not have to connect it by USB/serial to use it (although you can still do so).
-3.  Optionally, turn off the use of the Cardputer onboard LED by setting LED = off in the creds.txt file
-4.  In the extracted files you got from this repo, grab the \ESP32_Z80_Emulator\release\ESP32_Z80_Emulator.bin file and place on the SD card (with M5 Launcher already installed) into the \downloads folder on the root of the SD card.  If a \downloads folder does not already exist on the root of your SD card, create one and put the .bin file in there as described.
-5.  In the extracted files you got from this repo, get \SD Card Files\boot.txt, the \z80 folder, and the \disks folder and place all 3 on the root of the SD card which will then look like this:
+   2a. As of release 1.4, if connection to local wifi fails, the cardputer will now setup an access point.  See release v1.4 notes below.
+4.  Optionally, turn off the use of the Cardputer onboard LED by setting LED = off in the creds.txt file
+5.  In the extracted files you got from this repo, grab the \ESP32_Z80_Emulator\release\ESP32_Z80_Emulator.bin file and place on the SD card (with M5 Launcher already installed) into the \downloads folder on the root of the SD card.  If a \downloads folder does not already exist on the root of your SD card, create one and put the .bin file in there as described.
+6.  In the extracted files you got from this repo, get \SD Card Files\boot.txt, the \z80 folder, and the \disks folder and place all 3 on the root of the SD card which will then look like this:
 
    SD Card:
 
@@ -41,6 +42,15 @@ Notes:
 Thank you to the original author, David Bottrill, for the heavy lifting.
 
 My updates are all post-2023 below.
+*************************
+*** Update 10/09/2024 v1.4 ***
+
+Added battery level text to screen
+
+If connection to local Wi-Fi fails, fall back to setting up an access point.  The access point details (SSID and password) are displayed on the screen for 30 seconds.  (Z80-ap / Z80-password).  If the screen tells you to "TELNET TO:" an IP address that is green, the AP mode is active and you need to join the Z80-ap network first.  If the IP address is yellow, you are connected to your local network that you configured in creds.txt.
+
+Screen text cleanup.  Needs more
+
 *************************
 *** Update 05/09/2024 v1.3 ***
 
