@@ -19,6 +19,12 @@ WiFiClient serverClient;
 const char *hostName = "esp80";   //Hostname
 extern bool telnetReady;
 extern bool useLED;
+extern String ipString;
+extern bool APMode;
+String ipString = "";  // Default initialization
+bool APMode = false;   // Default initialization
+const int BUTTON_PIN = 0;
+
 #define LED_PIN 21     // The GPIO pin connected to the LED data line
 #define NUM_LEDS 1     // Number of LEDs (assuming 1)
 #define BRIGHTNESS 255  // Adjust the brightness
@@ -26,96 +32,7 @@ CRGB leds[NUM_LEDS];
 
 #define S3
 
-//*********************************************************************************************
-//****                    Configuration for Lolin 32 Board                                 ****
-//*********************************************************************************************
-#ifdef LOLIN32
 
-#define SS    00
-#define MOSI  00
-#define MISO  00
-#define SCK   00
-SPIClass sdSPI(VSPI);
-
-//Define pins to use as virtual GPIO ports, -1 means not implemented
-int PortA[8] = { 32, 33, 25, 26, 27, 14, 12, 13};   //Virtual GPIO Port A
-int PortB[8] = { 17, 16, -1, -1, -1, -1, -1, -1};   //Virtual GPIO Port B
-
-
-//BreakPoint switches
-#define swA 15                  //Breakpoints on / Off
-#endif
-//*********************************************************************************************
-
-//*********************************************************************************************
-//****                  Configuration for Lillygo T1 Board                                 ****
-//*********************************************************************************************
-#ifdef T1
-
-#define SS    00
-#define MOSI  00
-#define MISO  00
-#define SCK   00
-SPIClass sdSPI(HSPI);
-
-//Define pins to use as virtual GPIO ports, -1 means not implemented
-int PortA[8] = { -1, -1, -1, -1, -1, -1, -1, -1};   //Virtual GPIO Port A
-int PortB[8] = { -1, -1, -1, -1, -1, -1, -1, -1};   //Virtual GPIO Port B
-
-//BreakPoint switches
-#define swA 4                   //Breakpoints on / Off
-
-#endif
-
-
-//*********************************************************************************************
-//****                  Configuration for Lillygo T2 Board                                 ****
-//*********************************************************************************************
-#ifdef T2
-
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1331.h>
-#include <SPI.h>
-
-#define sclk 14
-#define mosi 13
-#define cs   15
-#define rst  4
-#define dc   16
-
-// Color definitions
-#define BLACK           0x0000
-#define BLUE            0x001F
-#define RED             0xF800
-#define GREEN           0x07E0
-#define CYAN            0x07FF
-#define MAGENTA         0xF81F
-#define YELLOW          0xFFE0
-#define WHITE           0xFFFF
-
-Adafruit_SSD1331 display = Adafruit_SSD1331(cs, dc, mosi, sclk, rst);
-
-
-//SD Card SPI Pins
-#define SS    00
-#define MOSI  00
-#define MISO  00
-#define SCK   00
-SPIClass sdSPI(VSPI);
-
-//Define pins to use as virtual GPIO ports, -1 means not implemented
-int PortA[8] = { 32, 33, 25, 26, 27,  2, 12, 17};   //Virtual GPIO Port A
-int PortB[8] = { 21, 22, -1, -1, -1, -1, -1, -1};   //Virtual GPIO Port B
-
-
-//BreakPoint switches
-#define swA 36                   //Breakpoints on / Off
-#endif
-//*********************************************************************************************
-
-//*********************************************************************************************
-//****                  Configuration for ESP32-S3 Devkit Board                            ****
-//*********************************************************************************************
 #ifdef S3
 
 #define SS    12

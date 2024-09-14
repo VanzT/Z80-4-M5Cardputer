@@ -1,156 +1,57 @@
 #pragma once
-#ifdef T2
-//*********************************************************************************************
-//****                            OLED display task                                        ****
-//*********************************************************************************************
-void OLEDTask(void *parameter) {
-  Serial.println("OLED Task Started");
-  display.begin();
-  display.fillScreen(BLACK);
-  display.setCursor(0, 0);
-  display.setTextSize(1);
-  display.setTextColor(WHITE);
-  display.print("Z80 Emulator");
-  display.setCursor(0, 10);
-  display.print(WiFi.localIP());
 
-  uint8_t oled1, oled2;
-  const int oled1_y = 49;
-  const int oled2_y = 59;
-  bool dledO;
+#include "globals.h"
+#include <M5Unified.h>
+#include "battery.h"
 
-  for (;;) {
+void displayBatteryLevel() {
+    int batteryLevel = getBatteryPercentage();  // Get the battery percentage
 
-    if (oled1 != pOut[0]) {
-      if (bitRead(oled1, 0) != bitRead(pOut[0], 0)) {
-        if (bitRead(pOut[0], 0) == true) {
-          display.fillCircle(90, oled1_y, 4, RED);
-        } else {
-          display.fillCircle(90, oled1_y, 4, BLACK);
-        }
-      }
-      if (bitRead(oled1, 1) != bitRead(pOut[0], 1)) {
-        if (bitRead(pOut[0], 1) == true) {
-          display.fillCircle(78, oled1_y, 4, RED);
-        } else {
-          display.fillCircle(78, oled1_y, 4, BLACK);
-        }
-      }
-      if (bitRead(oled1, 2) != bitRead(pOut[0], 2)) {
-        if (bitRead(pOut[0], 2) == true) {
-          display.fillCircle(66, oled1_y, 4, RED);
-        } else {
-          display.fillCircle(66, oled1_y, 4, BLACK);
-        }
-      }
-      if (bitRead(oled1, 3) != bitRead(pOut[0], 3)) {
-        if (bitRead(pOut[0], 3) == true) {
-          display.fillCircle(54, oled1_y, 4, RED);
-        } else {
-          display.fillCircle(54, oled1_y, 4, BLACK);
-        }
-      }
-      if (bitRead(oled1, 4) != bitRead(pOut[0], 4)) {
-        if (bitRead(pOut[0], 4) == true) {
-          display.fillCircle(42, oled1_y, 4, RED);
-        } else {
-          display.fillCircle(42, oled1_y, 4, BLACK);
-        }
-      }
-      if (bitRead(oled1, 5) != bitRead(pOut[0], 5)) {
-        if (bitRead(pOut[0], 5) == true) {
-          display.fillCircle(30, oled1_y, 4, RED);
-        } else {
-          display.fillCircle(30, oled1_y, 4, BLACK);
-        }
-      }
-      if (bitRead(oled1, 6) != bitRead(pOut[0], 6)) {
-        if (bitRead(pOut[0], 6) == true) {
-          display.fillCircle(18, oled1_y, 4, RED);
-        } else {
-          display.fillCircle(18, oled1_y, 4, BLACK);
-        }
-      }
-      if (bitRead(oled1, 7) != bitRead(pOut[0], 7)) {
-        if (bitRead(pOut[0], 7) == true) {
-          display.fillCircle(6, oled1_y, 4, RED);
-        } else {
-          display.fillCircle(6, oled1_y, 4, BLACK);
-        }
-      }
-      oled1 = pOut[0];
-    }
+    // Clear the area where the battery level is displayed by drawing a filled rectangle
+    M5.Display.fillRect(10, 115, 160, 20, BLACK);  // Clear the area (adjust width/height as needed)
 
-    if (oled2 != pOut[2]) {
-      if (bitRead(oled2, 0) != bitRead(pOut[2], 0)) {
-        if (bitRead(pOut[2], 0) == true) {
-          display.fillCircle(90, oled2_y, 4, GREEN);
-        } else {
-          display.fillCircle(90, oled2_y, 4, BLACK);
-        }
-      }
-      if (bitRead(oled2, 1) != bitRead(pOut[2], 1)) {
-        if (bitRead(pOut[2], 1) == true) {
-          display.fillCircle(78, oled2_y, 4, GREEN);
-        } else {
-          display.fillCircle(78, oled2_y, 4, BLACK);
-        }
-      }
-      if (bitRead(oled2, 2) != bitRead(pOut[2], 2)) {
-        if (bitRead(pOut[2], 2) == true) {
-          display.fillCircle(66, oled2_y, 4, GREEN);
-        } else {
-          display.fillCircle(66, oled2_y, 4, BLACK);
-        }
-      }
-      if (bitRead(oled2, 3) != bitRead(pOut[2], 3)) {
-        if (bitRead(pOut[2], 3) == true) {
-          display.fillCircle(54, oled2_y, 4, GREEN);
-        } else {
-          display.fillCircle(54, oled2_y, 4, BLACK);
-        }
-      }
-      if (bitRead(oled2, 4) != bitRead(pOut[2], 4)) {
-        if (bitRead(pOut[2], 4) == true) {
-          display.fillCircle(42, oled2_y, 4, GREEN);
-        } else {
-          display.fillCircle(42, oled2_y, 4, BLACK);
-        }
-      }
-      if (bitRead(oled2, 5) != bitRead(pOut[2], 5)) {
-        if (bitRead(pOut[2], 5) == true) {
-          display.fillCircle(30, oled2_y, 4, GREEN);
-        } else {
-          display.fillCircle(30, oled2_y, 4, BLACK);
-        }
-      }
-      if (bitRead(oled2, 6) != bitRead(pOut[2], 6)) {
-        if (bitRead(pOut[2], 6) == true) {
-          display.fillCircle(18, oled2_y, 4, GREEN);
-        } else {
-          display.fillCircle(18, oled2_y, 4, BLACK);
-        }
-      }
-      if (bitRead(oled2, 7) != bitRead(pOut[2], 7)) {
-        if (bitRead(pOut[2], 7) == true) {
-          display.fillCircle(6, oled2_y, 4, GREEN);
-        } else {
-          display.fillCircle(6, oled2_y, 4, BLACK);
-        }
-      }
-      oled2 = pOut[02];
-    }
-
-    if (dled != dledO) {
-      dledO = dled;
-      if (dled == true) {
-        display.fillCircle(6, 39, 4, BLUE);
-      } else {
-        display.fillCircle(6, 39, 4, BLACK);
-      }
-    }
-
-    vTaskDelay(1);
-  }
+    M5.Display.setCursor(10, 115);                 // Move the cursor to the desired position
+    M5.Display.setTextColor(TFT_WHITE);
+    M5.Display.setTextSize(2);
+    M5.Display.printf("Battery: %d%%", batteryLevel);  // Print the new battery level
 }
-#endif
+
+void displayApModeInfo() {
+  M5.Display.fillScreen(TFT_BLACK);
+  M5.Display.setCursor(10, 10);
+  M5.Display.setTextColor(TFT_WHITE);
+  M5.Display.setTextSize(2);
+  M5.Display.println("Z80 for Cardputer");
+  M5.Display.setCursor(10, 50);
+  M5.Display.setTextColor(TFT_GREEN);
+  M5.Display.println("SSID: Z80-AP");
+  M5.Display.setCursor(10, 70);
+  M5.Display.println("Pass: Z80-password");
+}
+
+void displayTelnetInfo() {
+  M5.Display.fillScreen(TFT_BLACK);
+  M5.Display.setCursor(10, 10);
+  M5.Display.setTextColor(TFT_WHITE);
+  M5.Display.setTextSize(2);
+  M5.Display.println("Z80 for Cardputer");
+  M5.Display.setCursor(10, 50);
+  M5.Display.println("TELNET TO: ");
+  M5.Display.setCursor(10, 70);
+  if (ipString.length() > 12) {
+    M5.Display.setTextSize(2);  // Decrease font size if IP length is greater than 12
+  } else {
+    M5.Display.setTextSize(3);  // Default font size for IP address
+  }
+  if (APMode) {
+    M5.Display.setTextColor(TFT_GREEN);
+  } else {
+    M5.Display.setTextColor(TFT_YELLOW);
+  }
+  M5.Display.println(ipString);
+  displayBatteryLevel();
+}
+
+void blankScreen() {
+  M5.Display.fillScreen(TFT_BLACK);
+}

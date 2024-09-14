@@ -1,5 +1,6 @@
 #include "globals.h"
 #include <M5Unified.h>
+#include "oled.h"
 #pragma once
 
 //*********************************************************************************************
@@ -19,8 +20,8 @@ void TelnetTask(void *parameter) {
   IPAddress apIP = WiFi.softAPIP();
 
   // Convert IP addresses to strings for display purposes
-  String ipString = localIP.toString();
-  String apString = apIP.toString();
+  ipString = localIP.toString();  //global
+  String apString = apIP.toString(); //local
 
   // Check if either the local IP (client mode) or SoftAP IP (access point mode) is valid
   bool isValidIP = (localIP != IPAddress(0, 0, 0, 0) || apIP != IPAddress(0, 0, 0, 0)) && (ipString.length() > 0 || apString.length() > 0);
@@ -46,41 +47,12 @@ void TelnetTask(void *parameter) {
   telnet_t = true;
 
   if (APMode) {
-    M5.Display.fillScreen(TFT_BLACK);
-    M5.Display.setCursor(10, 10);
-    M5.Display.setTextColor(TFT_WHITE);
-    M5.Display.setTextSize(2);
-    M5.Display.println("Z80 for Cardputer");
-    M5.Display.setCursor(10, 50);
-    M5.Display.setTextColor(TFT_GREEN);
-    M5.Display.println("SSID: Z80-AP");
-    M5.Display.setCursor(10, 70);
-    M5.Display.println("Pass: Z80-password");
+    displayApModeInfo();
     vTaskDelay(30000);
   }
 
-  M5.Display.fillScreen(TFT_BLACK);
-  M5.Display.setCursor(10, 10);
-  M5.Display.setTextColor(TFT_WHITE);
-  M5.Display.setTextSize(2);
-  M5.Display.println("Z80 for Cardputer");
-  M5.Display.setCursor(10, 50);
-  M5.Display.println("TELNET TO: ");
-  M5.Display.setCursor(10, 70);
   if (isValidIP) {
-    if (ipString.length() > 12) {
-        M5.Display.setTextSize(2);  // Decrease font size if IP length is greater than 12
-    } else {
-        M5.Display.setTextSize(3);  // Default font size for IP address
-    }
-    if (APMode) {
-      M5.Display.setTextColor(TFT_GREEN);
-      M5.Display.println(apString);
-    } else {
-      M5.Display.setTextColor(TFT_YELLOW);
-      M5.Display.println(ipString);
-    }
-    M5.Display.setTextSize(2);
+    displayTelnetInfo();
   } else {
     M5.Display.println("not available");
   }

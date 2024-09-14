@@ -1,11 +1,21 @@
+#include "oled.h"
 #include "globals.h"
 #include "battery.h"
 #include <M5Unified.h>
+
 #pragma once
 
 bool ledOn = false;  // Flag to track LED state
 int ledToggleCounter = 0;  // Counter to control LED toggling
 int toggleInterval = 10;  // Adjust this value to control blinking speed
+
+bool isDisplayOn = true;  // Track whether the display is currently on
+unsigned long lastScreenUpdate = millis();  // Last time the screen was updated
+const unsigned long screenBlankInterval = 60000;  // 1 minute in milliseconds
+const unsigned long debounceDelay = 50;  // 50 milliseconds debounce delay
+unsigned long lastDebounceTime = 0;  // Last time a key press was detected
+bool lastButtonState = LOW;   // Previous state of the button
+bool currentButtonState = LOW; // Current state of the button
 
 // Variables for biorhythm-like LED control
 int redValue = 0, greenValue = 0, blueValue = 0;
@@ -13,7 +23,7 @@ int redIncrement = 1, greenIncrement = 2, blueIncrement = 3;
 
 // Battery check variables
 unsigned long lastBatteryCheck = 0;
-const unsigned long batteryCheckInterval = 10000;  // 2 minutes in milliseconds
+const unsigned long batteryCheckInterval = 60000;  // 1 minute in milliseconds
 
 // Function to update the LED colors in a pseudo-biorhythm pattern
 void updateLedColor() {
@@ -32,81 +42,113 @@ void updateLedColor() {
 
 // Serial input and output buffer task
 void serialTask(void *parameter) {
-    char c;
-    Serial.write("\n\rSerial I/O Task Started\n\r");
-    vTaskDelay(1);
-    serial_t = true;
+  char c;
+  Serial.write("\n\rSerial I/O Task Started\n\r");
+  vTaskDelay(1);
+  serial_t = true;
 
-    for (;;) {
-        unsigned long currentMillis = millis();
-        
-        // Check for battery level every 2 minutes
-        if (currentMillis - lastBatteryCheck >= batteryCheckInterval) {
-            lastBatteryCheck = currentMillis;
-            displayBatteryLevel();  // Update battery level on the display
-        }
+  for (;;) {
+    unsigned long currentMillis = millis();
 
-        // Check for chars to be sent
-        while (txOutPtr != txInPtr) {
-            Serial.write(txBuf[txOutPtr]);  // Send char to console
-
-            if (serverClient.connected() && telnetReady) {
-                if (useLED) {
-                    ledToggleCounter++;
-                    // Toggle LED every 'toggleInterval' characters
-                    if (ledToggleCounter >= toggleInterval) {
-                        if (ledOn) {
-                            leds[0] = CRGB::Black;  // Turn LED off
-                            FastLED.show();
-                        } else {
-                            updateLedColor();  // Turn LED on with color change
-                        }
-                        ledOn = !ledOn;  // Toggle the LED state
-                        ledToggleCounter = 0;  // Reset the counter
-                    }
-                }
-                serverClient.write(txBuf[txOutPtr]);  // Send via Telnet if client connected
-            }
-            txOutPtr++;  // Increment Output buffer pointer
-            if (txOutPtr == sizeof(txBuf)) txOutPtr = 0;  // Wrap around circular buffer
-            vTaskDelay(1);
-        }
-
-        // Ensure the LED is turned off when no more chars are being sent
-        if (useLED && ledOn) {
-            leds[0] = CRGB::Black;  // Turn LED off
-            FastLED.show();
-            ledOn = false;  // Reset the flag
-        }
-
-        // Check for Received chars from Serial
-        while (Serial.available()) {
-            rxBuf[rxInPtr] = Serial.read();
-            rxInPtr++;
-            if (rxInPtr == sizeof(rxBuf)) rxInPtr = 0;
-            vTaskDelay(1);
-        }
-
-        // Check for Received chars from Telnet
-        while (serverClient.available()) {
-            c = serverClient.read();
-            if (c == '\r' && serverClient.peek() == '\n') serverClient.read();
-            if (c == 127) c = 8;
-            rxBuf[rxInPtr] = c;
-            rxInPtr++;
-            if (rxInPtr == sizeof(rxBuf)) rxInPtr = 0;
-        }
-
-        // Handle virtual UART register
-        if (rxOutPtr != rxInPtr && bitRead(pIn[UART_LSR], 0) == 0) {
-            pIn[UART_PORT] = rxBuf[rxOutPtr];
-            rxOutPtr++;
-            if (rxOutPtr == sizeof(rxBuf)) rxOutPtr = 0;
-            bitWrite(pIn[UART_LSR], 0, 1);
-        }
-
-        vTaskDelay(1);
+    if (currentMillis - lastScreenUpdate >= screenBlankInterval && isDisplayOn) {
+      blankScreen();  // Blank the screen
+      isDisplayOn = false;  // Mark the screen as blanked
     }
+
+    // Read the current state of the button
+    bool reading = digitalRead(BUTTON_PIN);
+
+    // Check if the button state has changed
+    if (reading != lastButtonState) {
+      lastDebounceTime = millis();  // Reset debounce timer
+    }
+
+    // Check if the debounce delay has passed
+    if ((millis() - lastDebounceTime) > debounceDelay) {
+      // If the button state has changed and is stable, update the current button state
+      if (reading != currentButtonState) {
+        currentButtonState = reading;
+        // If the button is pressed (active low), perform the action
+        if (currentButtonState == LOW) {
+          // Button was pressed, call the function to un-blank the screen
+          displayTelnetInfo();
+          lastScreenUpdate = millis();  // Reset the screen blank timer
+          isDisplayOn = true; 
+        }
+      }
+    }
+
+    // Save the current button state
+    lastButtonState = reading;
+
+        
+    // Check for battery level every minute
+    if (currentMillis - lastBatteryCheck >= batteryCheckInterval && isDisplayOn) {
+      lastBatteryCheck = currentMillis;
+      displayBatteryLevel();  // Update battery level on the display
+    }
+
+    // Check for chars to be sent
+    while (txOutPtr != txInPtr) {
+      Serial.write(txBuf[txOutPtr]);  // Send char to console
+
+      if (serverClient.connected() && telnetReady) {
+        if (useLED) {
+          ledToggleCounter++;
+          // Toggle LED every 'toggleInterval' characters
+          if (ledToggleCounter >= toggleInterval) {
+            if (ledOn) {
+              leds[0] = CRGB(25, 0, 0);  // Turn LED dim red
+              FastLED.show();
+            } else {
+              updateLedColor();  // Turn LED on with color change
+            }
+            ledOn = !ledOn;  // Toggle the LED state
+            ledToggleCounter = 0;  // Reset the counter
+          }
+        }
+        serverClient.write(txBuf[txOutPtr]);  // Send via Telnet if client connected
+      }
+      txOutPtr++;  // Increment Output buffer pointer
+      if (txOutPtr == sizeof(txBuf)) txOutPtr = 0;  // Wrap around circular buffer
+      vTaskDelay(1);
+    }
+
+    // Ensure the LED is turned off when no more chars are being sent
+    if (useLED && ledOn) {
+      leds[0] = CRGB(25, 0, 0);  // Turn LED dim red
+      FastLED.show();
+      ledOn = false;  // Reset the flag
+    }
+
+    // Check for Received chars from Serial
+    while (Serial.available()) {
+      rxBuf[rxInPtr] = Serial.read();
+      rxInPtr++;
+      if (rxInPtr == sizeof(rxBuf)) rxInPtr = 0;
+      vTaskDelay(1);
+    }
+
+    // Check for Received chars from Telnet
+    while (serverClient.available()) {
+      c = serverClient.read();
+      if (c == '\r' && serverClient.peek() == '\n') serverClient.read();
+      if (c == 127) c = 8;
+      rxBuf[rxInPtr] = c;
+      rxInPtr++;
+      if (rxInPtr == sizeof(rxBuf)) rxInPtr = 0;
+    }
+
+    // Handle virtual UART register
+    if (rxOutPtr != rxInPtr && bitRead(pIn[UART_LSR], 0) == 0) {
+      pIn[UART_PORT] = rxBuf[rxOutPtr];
+      rxOutPtr++;
+      if (rxOutPtr == sizeof(rxBuf)) rxOutPtr = 0;
+      bitWrite(pIn[UART_LSR], 0, 1);
+    }
+
+    vTaskDelay(1);
+  }
 }
 
 // Print string to output buffer, will send to serial and telnet if connected
