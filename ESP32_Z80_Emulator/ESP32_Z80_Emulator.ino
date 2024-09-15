@@ -26,6 +26,7 @@
 bool useLED = true;
 
 bool telnetReady = false;
+bool APMode = false;
 
 void readLEDSetting() {
   File file = SD.open("/z80/creds.txt", FILE_READ);
@@ -53,6 +54,7 @@ void readLEDSetting() {
 }
 
 void setup() {
+  pinMode(BUTTON_PIN, INPUT_PULLUP); 
   M5.begin();
   M5.Display.setCursor(10, 10);
   M5.Display.setTextColor(TFT_WHITE);
