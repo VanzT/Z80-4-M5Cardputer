@@ -42,6 +42,14 @@ Thank you to the original author, David Bottrill, for the heavy lifting.
 
 My updates are all post-2023 below.
 *************************
+*** Update 14/09/2024 v1.5 ***
+
+Added screen timeout of 1 minute.  Press the G0 button next to the on/off switch to see the screen again for 1 minute
+
+Changed LED activity to remain dim red when there is no activity as a reminder that the Cardputer is still on even if the screen is blacked out
+
+
+*************************
 *** Update 10/09/2024 v1.4 ***
 
 Added battery level text to screen
