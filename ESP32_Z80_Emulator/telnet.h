@@ -25,7 +25,7 @@ void TelnetTask(void *parameter) {
 
   // Check if either the local IP (client mode) or SoftAP IP (access point mode) is valid
   bool isValidIP = (localIP != IPAddress(0, 0, 0, 0) || apIP != IPAddress(0, 0, 0, 0)) && (ipString.length() > 0 || apString.length() > 0);
-  bool APMode = (localIP == IPAddress(0, 0, 0, 0) && apIP != IPAddress(0, 0, 0, 0));
+  APMode = (localIP == IPAddress(0, 0, 0, 0) && apIP != IPAddress(0, 0, 0, 0));
   if (APMode) {
     ipString = apString;  //so we display the AP assigned address on the screen instead of local WiFi addr.
   }
@@ -48,7 +48,7 @@ void TelnetTask(void *parameter) {
 
   if (APMode) {
     displayApModeInfo();
-    vTaskDelay(30000);
+    delay(10000);
   }
 
   if (isValidIP) {

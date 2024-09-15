@@ -22,7 +22,7 @@ extern bool useLED;
 extern String ipString;
 extern bool APMode;
 String ipString = "";  // Default initialization
-bool APMode = false;   // Default initialization
+
 const int BUTTON_PIN = 0;
 
 #define LED_PIN 21     // The GPIO pin connected to the LED data line
